@@ -23,22 +23,22 @@ const styles = StyleSheet.create({
 });
 
 const randomBackground = () => {
-  var red = Math.floor(Math.random() * 255) // 123
-  var green = Math.floor(Math.random() * 255) // 45
-  var blue = Math.floor(Math.random() * 255) // 43
+  var red = Math.floor(Math.random() * 255); // 123
+  var green = Math.floor(Math.random() * 255); // 45
+  var blue = Math.floor(Math.random() * 255); // 43
 
   // String Interpolation
   // In a string -> isnert a value of some other data type
   // ""  ''  ``
 
-  return `rgb(${red}, ${green}, ${blue})` // rgb(123, 45, 43)
-}
+  return `rgb(${red}, ${green}, ${blue})`; // rgb(123, 45, 43)
+};
 
 const SingleNoteSummaryComponent = (props) => {
   const { myNoteText } = props;
   return (
     <View backgroundColor={randomBackground()} style={styles.textViewStyle} >
-      <Text style={styles.dateProperties}>{myNoteText.date}</Text>
+      <Text style={styles.dateProperties}>{myNoteText.date.toDateString()}</Text>
       <Text
         style={styles.textProperties}>
         {myNoteText.text}
