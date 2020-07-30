@@ -19,11 +19,12 @@ const NotesScreenComponent = () => {
   // item , index
 
   const [data, setData] = useState([]);
-  const addNewNote = newNote => {
+  const addNewNote = (newNote, backgroundColor) => {
     setData([
       {
         date: new Date(),
-        text: newNote
+        text: newNote,
+        backgroundColor
       },
       ...data
     ])
@@ -41,7 +42,7 @@ const NotesScreenComponent = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) =>  // {item} bcz we are getting (item,index) but we need only item
           <SingleNoteSummaryComponent
-            myNoteText={item}
+            noteInfo={item}
           />
         }
       />
