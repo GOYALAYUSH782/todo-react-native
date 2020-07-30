@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, Button } from 'react-native';
 import SingleNoteSummaryComponent from "./SingleNoteSummaryComponent";
 import CreateNoteComponent from "./CreateNoteComponent";
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,18 +20,28 @@ const NotesScreenComponent = () => {
   // item , index
 
   const [data, setData] = useState([]);
-  const addNewNote = newNote => {
+  const addNewNote = (newNote, backgroundColor) => {
     setData([
       {
         date: new Date(),
-        text: newNote
+        text: newNote,
+        backgroundColor
       },
       ...data
     ])
   };
+  const signOut = () => {
+    firebase
+      .auth()
+      .signOut();
+  };
 
   return (
     <View style={styles.container}>
+      <Button
+        title={"Log Out"}
+        onPress={() => signOut()}
+      />
       <CreateNoteComponent
         addNewNote={addNewNote}
       />
@@ -41,7 +52,7 @@ const NotesScreenComponent = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) =>  // {item} bcz we are getting (item,index) but we need only item
           <SingleNoteSummaryComponent
-            myNoteText={item}
+            noteInfo={item}
           />
         }
       />

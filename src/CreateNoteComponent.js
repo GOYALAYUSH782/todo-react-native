@@ -8,9 +8,22 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
     padding: 20,
-    fontSize: 21
+    fontSize: 21,
+    backgroundColor: "#fff"
   }
 });
+
+const randomBackground = () => {
+  const red = Math.floor(Math.random() * 255); // 123
+  const green = Math.floor(Math.random() * 255); // 45
+  const blue = Math.floor(Math.random() * 255); // 43
+
+  // String Interpolation
+  // In a string -> isnert a value of some other data type
+  // ""  ''  ``
+
+  return `rgb(${red}, ${green}, ${blue})`; // rgb(123, 45, 43)
+};
 
 const CreateNoteComponent = (props) => {
   const [newNoteText, setNewNoteText] = useState("");
@@ -31,7 +44,7 @@ const CreateNoteComponent = (props) => {
       <Button
         title={"Create Note"}
         onPress={() => {
-          addNewNote(newNoteText);
+          addNewNote(newNoteText, randomBackground());
           setNewNoteText('');
         }}
       />
