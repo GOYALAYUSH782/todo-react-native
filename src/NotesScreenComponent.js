@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import SingleNoteSummaryComponent from "./SingleNoteSummaryComponent";
+import CreateNoteComponent from "./CreateNoteComponent";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,23 +14,26 @@ const styles = StyleSheet.create({
 
 const NotesScreenComponent = () => {
 
-  const data = [
-    { "date": "24-10-1998", "text": "I am going to Abohar" },
-    { "date": "24-02-2002", "text": "I have to bring vegetables" },
-    { "date": "24-02-2003", "text": "I have to bring vegetables" },
-    { "date": "24-02-2004", "text": "I have to bring vegetables" },
-    { "date": "24-03-2004", "text": "I have to bring vegetables" },
-    { "date": "24-04-2004", "text": "I have to bring vegetables" },
-    { "date": "24-04-2005", "text": "I have to bring vegetables" },
-    { "date": "24-04-2006", "text": "I have to bring vegetables" },
-    { "date": "24-04-2007", "text": "I have to bring vegetables" }
-  ]
   // to write javascript inside jsx, i need to enclose javascript code in {}
   // {name: 'abc', 'age': 12} -> {name} -> {name: 'abc'}
   // item , index
 
+  const [data, setData] = useState([]);
+  const addNewNote = newNote => {
+    setData([
+      {
+        date: new Date(),
+        text: newNote
+      },
+      ...data
+    ])
+  };
+
   return (
     <View style={styles.container}>
+      <CreateNoteComponent
+        addNewNote={addNewNote}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={data}
@@ -43,6 +47,6 @@ const NotesScreenComponent = () => {
       />
     </View>
   );
-}
+};
 
 export default NotesScreenComponent;
