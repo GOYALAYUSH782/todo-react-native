@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, Button } from 'react-native';
 import SingleNoteSummaryComponent from "./SingleNoteSummaryComponent";
 import CreateNoteComponent from "./CreateNoteComponent";
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,9 +30,18 @@ const NotesScreenComponent = () => {
       ...data
     ])
   };
+  const signOut = () => {
+    firebase
+      .auth()
+      .signOut();
+  };
 
   return (
     <View style={styles.container}>
+      <Button
+        title={"Log Out"}
+        onPress={() => signOut()}
+      />
       <CreateNoteComponent
         addNewNote={addNewNote}
       />
