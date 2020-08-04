@@ -28,7 +28,7 @@ const SingleNoteSummaryComponent = (props) => {
   const { noteInfo } = props;
   return (
     <View backgroundColor={noteInfo.backgroundColor} style={styles.textViewStyle} >
-      <Text style={styles.dateProperties}>{noteInfo.date.toDateString()}</Text>
+      <Text style={styles.dateProperties}>{noteInfo.date}</Text>
       <Text
         style={styles.textProperties}>
         {noteInfo.text}

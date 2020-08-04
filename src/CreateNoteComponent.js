@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, StyleSheet, Button, View } from 'react-native';
+import firebase from "firebase";
 
 const styles = StyleSheet.create({
   textInputStyles: {
@@ -25,9 +26,21 @@ const randomBackground = () => {
   return `rgb(${red}, ${green}, ${blue})`; // rgb(123, 45, 43)
 };
 
-const CreateNoteComponent = (props) => {
+const CreateNoteComponent = () => {
   const [newNoteText, setNewNoteText] = useState("");
-  const { addNewNote } = props;
+  const storeUserNotesDataOnFirebase = () => {
+    const logegdInUserId = firebase.auth().currentUser.uid;
+    const pathForData = `/users/${logegdInUserId}`;
+
+    firebase
+      .database()
+      .ref(pathForData)
+      .push({
+        date: new Date().toDateString(),
+        text: newNoteText,
+        backgroundColor: randomBackground()
+      })
+  };
 
   return (
     <View>
@@ -44,8 +57,11 @@ const CreateNoteComponent = (props) => {
       <Button
         title={"Create Note"}
         onPress={() => {
-          addNewNote(newNoteText, randomBackground());
-          setNewNoteText('');
+          // store the text on firebase
+          if (newNoteText !== '') {
+            storeUserNotesDataOnFirebase();
+            setNewNoteText('');
+          }
         }}
       />
     </View>

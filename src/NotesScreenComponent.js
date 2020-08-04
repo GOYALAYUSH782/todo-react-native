@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, View, StyleSheet, Button } from 'react-native';
 import SingleNoteSummaryComponent from "./SingleNoteSummaryComponent";
 import CreateNoteComponent from "./CreateNoteComponent";
 import firebase from "firebase";
+import _ from "lodash";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,21 +21,28 @@ const NotesScreenComponent = () => {
   // item , index
 
   const [data, setData] = useState([]);
-  const addNewNote = (newNote, backgroundColor) => {
-    setData([
-      {
-        date: new Date(),
-        text: newNote,
-        backgroundColor
-      },
-      ...data
-    ])
-  };
   const signOut = () => {
     firebase
       .auth()
       .signOut();
   };
+
+  const logegdInUserId = firebase.auth().currentUser.uid;
+  const pathForData = `/users/${logegdInUserId}`;
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(pathForData)
+      .on('value', completeNewData => {
+        const newDataList = _.map(completeNewData.val(), (value, key) => {
+          return {
+            ...value
+          }
+        })
+        setData(newDataList);
+      })
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -42,9 +50,7 @@ const NotesScreenComponent = () => {
         title={"Log Out"}
         onPress={() => signOut()}
       />
-      <CreateNoteComponent
-        addNewNote={addNewNote}
-      />
+      <CreateNoteComponent />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={data}
