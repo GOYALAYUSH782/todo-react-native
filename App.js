@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import NotesScreenComponent from "./src/NotesScreenComponent";
 import LoginScreenComponent from "./src/LoginScreenComponent";
+import NoteComponent from './src/NoteComponent';
 import firebase from 'firebase';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 export default function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const Stack = createStackNavigator();
 
   if (firebase.apps.length === 0) {
     const firebaseConfig = {
@@ -31,9 +36,18 @@ export default function App() {
 
   if (userLoggedIn) {
     return (
-      <View style={styles.container}>
-        <NotesScreenComponent />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name='Home'
+            component={NotesScreenComponent}
+          />
+          <Stack.Screen
+            name='Notes'
+            component={NoteComponent}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   } else {
     return (

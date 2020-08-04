@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   textProperties: {
@@ -24,16 +25,19 @@ const styles = StyleSheet.create({
   }
 });
 
-const SingleNoteSummaryComponent = (props) => {
-  const { noteInfo } = props;
+const SingleNoteSummaryComponent = ({ navigation, noteInfo }) => {
   return (
-    <View backgroundColor={noteInfo.backgroundColor} style={styles.textViewStyle} >
-      <Text style={styles.dateProperties}>{noteInfo.date}</Text>
-      <Text
-        style={styles.textProperties}>
-        {noteInfo.text}
-      </Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Notes', { noteInfo })}
+    >
+      <View backgroundColor={noteInfo.backgroundColor} style={styles.textViewStyle} >
+        <Text style={styles.dateProperties}>{noteInfo.date}</Text>
+        <Text
+          style={styles.textProperties}>
+          {noteInfo.text}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

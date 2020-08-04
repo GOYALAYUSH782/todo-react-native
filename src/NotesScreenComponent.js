@@ -7,14 +7,18 @@ import _ from "lodash";
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
+    flex: 1,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 0,
-    marginTop: 50,
     padding: 0
   }
 });
 // a react component is nothing but a javascript function
 
-const NotesScreenComponent = () => {
+const NotesScreenComponent = ({ navigation }) => {
 
   // to write javascript inside jsx, i need to enclose javascript code in {}
   // {name: 'abc', 'age': 12} -> {name} -> {name: 'abc'}
@@ -59,6 +63,7 @@ const NotesScreenComponent = () => {
         renderItem={({ item }) =>  // {item} bcz we are getting (item,index) but we need only item
           <SingleNoteSummaryComponent
             noteInfo={item}
+            navigation={navigation}
           />
         }
       />
